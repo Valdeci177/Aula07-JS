@@ -1,0 +1,41 @@
+// Função para calcular a gorjeta com base na qualidade do serviço
+const calculateTip = (total, quality, callback) => {
+    let percentage = 0;
+    switch (quality) {
+        case 'good':
+            percentage = 0.2;
+            break;
+        case 'regular':
+            percentage = 0.15;
+            break;
+        case 'bad':
+            percentage = 0.1;
+            break;
+        default:
+            percentage = 0.15; // Se a qualidade não for especificada, assume-se regular
+    }
+    
+    // Calcula a gorjeta
+    const tipAmount = total * percentage;
+    
+    // Chama o callback com a gorjeta calculada
+    callback(tipAmount);
+};
+
+// Função de callback para exibir o resultado na página
+const displayTip = (tipAmount) => {
+    const tipElement = document.getElementById('tipAmount');
+    tipElement.textContent = `Gorjeta a ser paga: R$ ${tipAmount.toFixed(2)}`;
+};
+
+// Evento de submissão do formulário
+const form = document.getElementById('tipCalculator');
+form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    
+    const totalBill = parseFloat(document.getElementById('totalBill').value);
+    const serviceQuality = document.getElementById('serviceQuality').value;
+
+    // Chama a função calculateTip com o valor total da conta, qualidade do serviço e a função de callback
+    calculateTip(totalBill, serviceQuality, displayTip);
+});
